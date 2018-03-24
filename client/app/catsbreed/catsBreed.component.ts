@@ -46,10 +46,11 @@ export class CatsBreedComponent implements OnInit {
           error => console.log(error)
     );
   }
-  enableEditing(catBreed: CatBreed){
+ enableEditing(catBreed: CatBreed){
     this.isEditing = true;
     this.catBreed = catBreed;
-  }
+  } 
+
   deleteCatBreed(catBreed : CatBreed){
     if(window.confirm('Are you sure you want to permanently delete this item?')){
       this.catBreedService.deleteCatBreed(catBreed).subscribe(

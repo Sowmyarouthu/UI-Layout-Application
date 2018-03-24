@@ -2,9 +2,9 @@ import * as mongoose from 'mongoose';
 
 const catSchema = new mongoose.Schema({
   name: String,
+  breed:String,
   weight: Number,
-  age: Number,
-  food : []
+  age: Number
 });
 
 const Cat = mongoose.model('Cat', catSchema);

@@ -56,6 +56,35 @@ abstract class BaseCtrl {
       res.sendStatus(200);
     });
   }
+
+  send = (req,res)=>{
+   
+    res.console.log(req);
+    var email = require('emailjs');
+
+    var server = email.server.connect({
+      user: 'soumyarouthu50@gmail.com',
+      password: 'routhu50',
+      host: 'smtp.gmail.com',
+      ssl: true
+    });
+    
+    server.send({
+      text: req.body.name,
+      from: 'soumyarouthu',
+      to: 'vizagshare@gmail.com',
+      cc: '',
+      subject: 'Grocery List',
+      
+      attachment: 
+   [
+      {data:"<html><h5>List the Groceries</h5><ul class='list-group'><li class='list-group-item'><div class='row'><div>req.body.name</div><div>req.body.quantity</div></div> </li></ul></html>", alternative:true}
+      
+   ]
+    }, function (err, message) {
+      console.log(err || message);
+    });
+  }
 }
 
 export default BaseCtrl;

@@ -9,9 +9,9 @@
       <thead class="thead-default">
         <tr>
           <th>Name</th>
+          <th>Breed</th>
           <th>Age</th>
           <th>Weight</th>
-          <th>Food</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -22,22 +22,32 @@
       </tbody>
       <tbody *ngIf="!isEditing">
         <tr *ngFor="let cat of cats">
-          <td>{{cat.name}}</td>
+            <td ><ngx-avatar size="30" name="{{cat.name}}" style="float:left"></ngx-avatar>{{cat.name}}</td>
+          <td>{{cat.breed}}</td>
           <td>{{cat.age}}</td>
           <td>{{cat.weight}}</td>
-          <td><span *ngFor="let food of cat.food">{{food.itemName}}<br></span></td>
+          <!-- <td><span *ngFor="let food of cat.food">{{food.itemName}}<br></span></td> -->
           <td>
             <button class="btn btn-sm btn-warning" (click)="enableEditing(cat)"><i class="fa fa-pencil"></i> Edit</button> 
             <button class="btn btn-sm btn-danger" (click)="deleteCat(cat)"><i class="fa fa-trash"></i> Delete</button>
           </td>
         </tr>  
+        <div paging page="1" page-size="5" total="10" paging-action="foo('bar', page)">
+       </div> 
       </tbody>
       <tbody *ngIf="isEditing">
         <tr>
           <td colspan="5">
             <form class="form-inline" #form="ngForm" (ngSubmit)="editCat(cat)" style="display:inline">
               <div class="form-group">
-                <input class="form-control" type="text" name="name" [(ngModel)]="cat.name" placeholder="Name" required>
+                <input class="form-control" type="text"  name="name" [(ngModel)]="cat.name" placeholder="Name"  required>
+                <div [hidden]="form.form.valid"  class="alert alert-danger">Name is required</div>
+               </div> 
+             <div class="form-group">
+                <select class="form-control" >
+                  <option   *ngFor="let breedname of breednames" value="{{breedname.name}}"  name="breed" [(ngModel)]="cat.breed">{{breedname.name}}</option>
+                </select>
+                <!-- <input class="form-control" type="text" name="breed" [(ngModel)]="cat.breed" placeholder="breed" required> -->
               </div>
               <div class="form-group">
                 <input class="form-control" type="number" name="age" [(ngModel)]="cat.age" placeholder="Age" min="0" required>
@@ -45,10 +55,7 @@
               <div class="form-group">
                 <input class="form-control" type="number" name="weight" [(ngModel)]="cat.weight" placeholder="Weight" step="any" min="0" required>
               </div>
-              <div class="form-group" >
-                  <angular2-multiselect  class="form-control" [data]="dropdownList" [(ngModel)]="cat.food" [settings]="dropdownSettings" [ngModelOptions]="{standalone: true}" >>
-            </angular2-multiselect>
-              </div>
+              
               <button class="btn btn-sm btn-primary" type="submit" [disabled]="!form.form.valid"><i class="fa fa-floppy-o"></i> Save</button>
             </form>
             <button class="btn btn-sm btn-warning" (click)="cancelEditing()"><i class="fa fa-times"></i> Cancel</button>
@@ -67,19 +74,18 @@
         <input class="form-control" type="text" name="name" formControlName="name" placeholder="Name">
       </div>
       <div class="form-group">
+        <select class="form-control" formControlName="breed" >
+          <option value="" disabled selected>Breed</option>
+          <option *ngFor="let breedname of breednames" value="{{breedname.name}}">{{breedname.name}}</option>
+        </select>
+      </div>
+      <div class="form-group">
         <input class="form-control" type="number" name="age" formControlName="age" placeholder="Age" min="0">
       </div>
       <div class="form-group">
         <input class="form-control" type="number" name="weight" formControlName="weight" placeholder="Weight" step="any" min="0">
       </div>
-      <div class="form-group">
-            <angular2-multiselect  [data]="dropdownList" [(ngModel)]="selectedItems" [settings]="dropdownSettings" 
-                                  (onSelect)="onItemSelect($event)"
-                                  (onDeSelect)="OnItemDeSelect($event)" 
-                                  (onSelectAll)="onSelectAll($event)" 
-                                  (onDeSelectAll)="onDeSelectAll($event)" formControlName="food">>
-            </angular2-multiselect>
-      </div>
+      
       <button class="btn btn-primary" type="submit" [disabled]="!addCatForm.valid"><i class="fa fa-floppy-o"></i> Add</button>
     </form>
   </div>

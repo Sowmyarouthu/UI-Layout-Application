@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-
+import {CatBreedService} from '../services/catBreed.service';
 import { CatService } from '../services/cat.service';
 import { ToastComponent } from '../shared/toast/toast.component';
 import { Cat } from '../shared/models/cat.model';
+import { CatBreed } from '../shared/models/catBreed.model';
 
 @Component({
   selector: 'app-cats',
@@ -11,15 +12,18 @@ import { Cat } from '../shared/models/cat.model';
   styleUrls: ['./cats.component.css']
 })
 export class CatsComponent implements OnInit {
-
+  breednames :any;
+  selectbreed: any;
   cat = new Cat();
   cats: Cat[] = [];
   isLoading = true;
   isEditing = false;
+  
 
   addCatForm: FormGroup;
   name = new FormControl('', Validators.required);
   age = new FormControl('', Validators.required);
+  breed = new FormControl('', Validators.required);
   weight = new FormControl('', Validators.required);
   food = new FormControl([[], Validators.required]);
 
@@ -28,14 +32,17 @@ export class CatsComponent implements OnInit {
     dropdownSettings = {};
 
   constructor(private catService: CatService,
+              private CatBreedService: CatBreedService,
               private formBuilder: FormBuilder,
               public toast: ToastComponent) { }
 
   ngOnInit() {
-    this.getCats();
+    
+  this.getCats();
     this.addCatForm = this.formBuilder.group({
       name: this.name,
       age: this.age,
+      breed: this.breed,
       weight: this.weight,
       food:this.food
     });
@@ -76,6 +83,7 @@ export class CatsComponent implements OnInit {
       error => console.log(error),
       () => this.isLoading = false
     );
+    this.CatBreedService.getCatBreeds().subscribe(name => this.breednames = name);
   }
 
   addCat() {
@@ -87,6 +95,7 @@ export class CatsComponent implements OnInit {
       },
       error => console.log(error)
     );
+    
   }
 
   enableEditing(cat: Cat) {

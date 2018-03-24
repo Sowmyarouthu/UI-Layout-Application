@@ -9,7 +9,8 @@ import { LogoutComponent } from './logout/logout.component';
 import { AccountComponent } from './account/account.component';
 import { AdminComponent } from './admin/admin.component';
 import { NotFoundComponent } from './not-found/not-found.component';
-
+import {AngularApiComponent} from './AngularAPI/api.component';
+import { GroceryListComponent} from './GroceryList/Grocs.component';
 import { AuthGuardLogin } from './services/auth-guard-login.service';
 import { AuthGuardAdmin } from './services/auth-guard-admin.service';
 import { CatsBreedComponent } from './catsbreed/catsBreed.component';
@@ -18,6 +19,8 @@ const routes: Routes = [
   { path: 'cats', component: CatsComponent },  
   {path: 'catbreed', component:CatsBreedComponent},
   { path: 'register', component: RegisterComponent },
+  { path: 'API', component: AngularApiComponent },
+  { path: 'grocs', component: GroceryListComponent},
   { path: 'login', component: LoginComponent },
   { path: 'logout', component: LogoutComponent },
   { path: 'account', component: AccountComponent, canActivate: [AuthGuardLogin] },
